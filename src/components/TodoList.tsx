@@ -86,6 +86,29 @@ export default function TodoList() {
   }
   }
 
+  /**
+   * changes the description of todo
+   * @param id of the todo
+   * @param desc new description to replace
+   */
+  function handleSaveDesc(id: string, desc: string) {
+
+    if (todoList != null) {
+      const newTodoList: ToDo[] = todoList.map((t) => {
+        if (t.id === id) {
+          t.description = desc;
+          return t;
+        } else {
+          return t;
+        }
+    })
+    
+    setTodoList(newTodoList);
+    localStorage.setItem("todoSubTodo",JSON.stringify(newTodoList));
+  }
+
+  }
+
   if(todoList === null) {
     return(
       <div>
@@ -113,7 +136,8 @@ export default function TodoList() {
                   <button
                   onClick={() => handleDelteTodo(todos.id)}
                   >Delete</button>
-                  
+                  <br />
+                  <HandleDescription id={todos.id} description={todos.description} handleSaveDesc={handleSaveDesc}/>
                 </li>
               ))
             }
@@ -172,4 +196,54 @@ export default function TodoList() {
         <button onClick={() => setIsEditing(true)}>Edit</button>
         </>)
     }
+}
+
+/**
+ * 
+ * @param param0 id of the todo
+ * @param param1 description description of todo
+ * @param param2 handlesave function to change description of todo
+ * @returns 
+ */
+function HandleDescription({id,description, handleSaveDesc} : {id: string, description: string|null, handleSaveDesc: (id:string, desc: string) => void}) {
+
+  
+  const[isEditing, setIsEditing] = useState<boolean>(false);
+  const [desc, setDesc]  = useState<string| null>(description);
+  
+  if(desc === null) {
+    return (
+      <>
+      <>No Description Added</>
+      </>
+    )
+  }
+
+  
+  function handleSave() {
+    if(desc !== null) {
+      handleSaveDesc(id, desc);
+      setIsEditing(false);
+    }
+  }
+
+  if (isEditing) {
+    return (<>
+    <input type="text" 
+          value={desc}
+          onChange={(e) => setDesc(e.target.value)}/> 
+
+          <button onClick={() => handleSave()}>Save</button>
+    </>)
+  } else {
+    return (
+      <>
+      <>{desc}  </>
+      <button
+      onClick={()=>setIsEditing(true)}
+      >{(desc==="")? "No Description Click on it Add" : "Edit"}</button>
+      </>
+    )
+  }
+
 }
