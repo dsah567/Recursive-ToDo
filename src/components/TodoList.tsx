@@ -26,9 +26,15 @@ export default function TodoList() {
    */
   function handleDelteTodo(id: string){
     if(todoList !== null) {
-      const newToDoList: ToDo[] =todoList?.filter(t => t.id !== id)
-      setTodoList(newToDoList);
-      localStorage.setItem("todoSubTodo",JSON.stringify(newToDoList));
+      const newTodoList: ToDo[] =todoList?.filter(t => t.id !== id)
+
+      if(newTodoList.length === 0 ){
+        setTodoList(null)
+        localStorage.removeItem("todoSubTodo");
+      } else {
+        setTodoList(newTodoList);
+        localStorage.setItem("todoSubTodo",JSON.stringify(newTodoList));
+      }
     }
   }
 
