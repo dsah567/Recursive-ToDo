@@ -19,6 +19,19 @@ export default function TodoList() {
     }
   },[])
 
+  /**
+   * 
+   * @param id which todo we have to remove
+   * update the new todolist and also localstorage
+   */
+  function handleDelteTodo(id: string){
+    if(todoList !== null) {
+      const newToDoList: ToDo[] =todoList?.filter(t => t.id !== id)
+      setTodoList(newToDoList);
+      localStorage.setItem("todoSubTodo",JSON.stringify(newToDoList));
+    }
+  }
+
   if(todoList === null) {
     return(
       <div>
@@ -36,7 +49,21 @@ export default function TodoList() {
          <AddToDo todoList={todoList} setToDoList={setTodoList}/>
         </div>
 
-        <div>ToDos are the but code not written to display
+        <div>
+          <ul>
+            {
+              todoList.map((todos: ToDo) => (
+                <li key={todos.id}>
+                  {todos.name}
+
+                  <button
+                  onClick={() => handleDelteTodo(todos.id)}
+                  >Delete</button>
+                  
+                </li>
+              ))
+            }
+          </ul>
          
         </div>
       </div>
