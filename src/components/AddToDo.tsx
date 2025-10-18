@@ -57,27 +57,31 @@ export default function AddToDo({todoList,setToDoList}: {todoList: ToDo[]| null,
       }
     }
   return (
-    <div>
-        <label> Enter the name of ToDo  </label>
+    <div className="bg-[#b0b0ebee] p-2 rounded-2xl">
+        <label> Enter the name of ToDo: </label>
         <input
+        className="bg-white m-2 rounded-2xl p-2 "
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
         />
-        <br />
 
-        <label> Enter the description for ToDo or leave it empty  </label>
-        <input
-            type="text"
+        <label> Enter the description for ToDo or leave it empty: </label>
+        <br />
+        <textarea
+        className="bg-white m-2 rounded-2xl p-2 w-full"
+            rows={3}
             value={description}
             onChange={ (e) => setDescription(e.target.value)}
-        />
+        ></textarea>
         <br />
 
-        <button
-            onClick={()=>{handleAddTodo()}}
-        >Add</button>
+
+          <button
+          className="bg-cyan-400 hover:bg-cyan-500 text-white font-semibold py-2 px-6 rounded-full"
+              onClick={()=>{handleAddTodo()}}
+          >Add</button>
     </div>
   )
 }

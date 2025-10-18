@@ -112,32 +112,37 @@ export default function TodoList() {
   if(todoList === null) {
     return(
       <div>
-        <div>
+        <div className="m-2">
           <AddToDo todoList={todoList} setToDoList={setTodoList}/>
         </div>
-        <div>No ToDo Added</div>
+        <div className="bg-[#b0b0ebee] p-2 rounded-2xl" >No ToDo Added</div>
       </div>
     ) 
   }
   else {
     return(
       <div>
-        <div>
+        <div className="m-2">
          <AddToDo todoList={todoList} setToDoList={setTodoList}/>
         </div>
 
-        <div>
+        <div className="bg-[#b0b0ebee] p-2 rounded-2xl" >
           <ul>
             {
               todoList.map((todos: ToDo) => (
-                <li key={todos.id}>
-                  <Todo todo={todos} handleSaveTodo={handleSaveTodo} handleChangeTodo={handleChangeTodo}/>
-
-                  <button
-                  onClick={() => handleDelteTodo(todos.id)}
-                  >Delete</button>
-                  <br />
-                  <HandleDescription id={todos.id} description={todos.description} handleSaveDesc={handleSaveDesc}/>
+                <li key={todos.id}
+                className="p-2 m-1 bg-gray-400 rounded-2xl"
+                >
+                  <div className="my-5">
+                    <Todo todo={todos} handleSaveTodo={handleSaveTodo} handleChangeTodo={handleChangeTodo}/>
+                    <button
+                    className="bg-blue-400 rounded-xl px-4 mx-2"
+                    onClick={() => handleDelteTodo(todos.id)}
+                    >Delete</button>
+                  </div>
+                  <div className="my-5">
+                    <HandleDescription id={todos.id} description={todos.description} handleSaveDesc={handleSaveDesc}/>
+                  </div>
                 </li>
               ))
             }
@@ -177,23 +182,30 @@ export default function TodoList() {
       return (
       <>
         <input type="text" 
+        className="bg-white m-2 rounded-2xl p-2 w-full"
           value={todoName}
           onChange={(e) => setTodoName(e.target.value)}/> 
 
-          <button onClick={() => handleSave()}>Save</button>
+          <button
+          className="bg-blue-400 rounded-xl px-4 mx-2"
+           onClick={() => handleSave()}>Save</button>
       </>)
 
     } else {
         return (<>
         <input 
+        className="p-2 m-1 rounded-2xl"
         type="checkbox"
         checked={todo.completed} 
         onChange={() => handleChangeTodo(todo.id)}
         />
+        <span className="bg-yellow-100 py-2 px-4 rounded-2xl">
+          {todo.name} 
+        </span>
         
-        {todo.name} 
-        
-        <button onClick={() => setIsEditing(true)}>Edit</button>
+        <button
+        className="bg-blue-400 rounded-xl px-4 mx-2"
+        onClick={() => setIsEditing(true)}>Edit</button>
         </>)
     }
 }
@@ -229,17 +241,22 @@ function HandleDescription({id,description, handleSaveDesc} : {id: string, descr
 
   if (isEditing) {
     return (<>
-    <input type="text" 
+    <textarea 
+    className="bg-white m-2 rounded-2xl p-2 w-full"
+    rows={3} 
           value={desc}
           onChange={(e) => setDesc(e.target.value)}/> 
 
-          <button onClick={() => handleSave()}>Save</button>
+          <button 
+          className="bg-blue-400 rounded-xl px-4 mx-2"
+          onClick={() => handleSave()}>Save</button>
     </>)
   } else {
     return (
       <>
-      <>{desc}  </>
+      <div className="bg-yellow-100 py-2 px-4 rounded-2xl">{desc}  </div>
       <button
+      className="bg-blue-400 rounded-xl px-4  mx-2 mt-2"
       onClick={()=>setIsEditing(true)}
       >{(desc==="")? "No Description Click on it Add" : "Edit"}</button>
       </>
