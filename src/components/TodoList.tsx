@@ -106,7 +106,7 @@ export default function TodoList() {
                   <div className="my-5">
                     <Todo todo={todos} handleSaveTodo={handleSaveTodo} handleChangeTodo={handleChangeTodo}/>
                     <button
-                    className="bg-blue-400 rounded-xl px-4 mx-2"
+                    className="bg-red-500 rounded-xl px-2 mx-1 mt-3"
                     onClick={() => handleDelteTodo(todos.id)}
                     >Delete</button>
                   </div>
@@ -148,19 +148,19 @@ export default function TodoList() {
       return (
       <>
         <input type="text" 
-        className="bg-white m-2 rounded-2xl p-2 w-full"
+        className="bg-white m-1 rounded-2xl p-2 w-full"
           value={todoName}
           onChange={(e) => setTodoName(e.target.value)}/> 
 
           <button
-          className="bg-blue-400 rounded-xl px-4 mx-2"
+          className="bg-blue-400 rounded-xl px-4 mx-1 mt-3"
            onClick={() => handleSave()}>Save</button>
       </>)
 
     } else {
         return (<>
         <input 
-        className="p-2 m-1 rounded-2xl"
+        className="rounded-2xl"
         type="checkbox"
         checked={todo.completed} 
         onChange={() => handleChangeTodo(todo.id)}
@@ -170,8 +170,16 @@ export default function TodoList() {
         </span>
         
         <button
-        className="bg-blue-400 rounded-xl px-4 mx-2"
+        className="bg-blue-400 rounded-xl px-4 mx-1 mt-3"
         onClick={() => setIsEditing(true)}>Edit</button>
+
+        <button
+        className="bg-blue-400 rounded-xl px-4 mx-1 mt-3"
+        >Add SubToDo</button>
+
+        <button
+        className="bg-blue-400 rounded-xl px-4 mx-1 mt-3"
+        >SShow SubToDo</button>
         </>)
     }
 }
