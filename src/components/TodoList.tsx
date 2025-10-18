@@ -104,11 +104,7 @@ export default function TodoList() {
                 className="p-2 m-1 bg-gray-400 rounded-2xl"
                 >
                   <div className="my-5">
-                    <Todo todo={todos} handleSaveTodo={handleSaveTodo} handleChangeTodo={handleChangeTodo}/>
-                    <button
-                    className="bg-red-500 rounded-xl px-2 mx-1 mt-3"
-                    onClick={() => handleDelteTodo(todos.id)}
-                    >Delete</button>
+                    <Todo todo={todos} handleSaveTodo={handleSaveTodo} handleChangeTodo={handleChangeTodo} handleDelteTodo={handleDelteTodo}/>
                   </div>
                 </li>
               ))
@@ -129,7 +125,8 @@ export default function TodoList() {
    * @param param2 handleChangeTodo for changing the completedoption of todo
    * @returns todo with edit/save and checkbox 
    */
-  function Todo({todo,handleSaveTodo, handleChangeTodo}: {todo: ToDo,handleSaveTodo: (id: string, todo: ToDo) => void, handleChangeTodo: (id: string) => void}) {
+  function Todo({todo,handleSaveTodo, handleChangeTodo, handleDelteTodo}: 
+      {todo: ToDo,handleSaveTodo: (id: string, todo: ToDo) => void, handleChangeTodo: (id: string) => void, handleDelteTodo :(id: string) => void}) {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [todoName, setTodoName] = useState<string>(todo.name);
 
@@ -172,6 +169,11 @@ export default function TodoList() {
         <button
         className="bg-blue-400 rounded-xl px-4 mx-1 mt-3"
         onClick={() => setIsEditing(true)}>Edit</button>
+
+        <button
+          className="bg-red-500 rounded-xl px-2 mx-1 mt-3"
+          onClick={() => handleDelteTodo(todo.id)}
+          >Delete</button>
 
         <button
         className="bg-blue-400 rounded-xl px-4 mx-1 mt-3"
