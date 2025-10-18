@@ -1,4 +1,5 @@
 import AddSubToDo from "./AddSubToDo"
+import ShowSubToDo from "./ShowSubToDo"
 import ToDo from "./types/Todo"
 
 /**
@@ -14,6 +15,10 @@ export default function FurtherDetail({addSubToDo, todo}:
     if (addSubToDo) {
         return <AddSubToDo subToDoArrar={todo.SubToDo}/>
     } else {
-        return <>show subtodos</>
+        return (
+            <div className=" ml-2">
+                <ShowSubToDo todo={todo}/>
+            </div>
+        ) 
     }
 }
