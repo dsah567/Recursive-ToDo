@@ -10,12 +10,15 @@ import AddToDo from "./AddToDo";
  */
 export default function TodoList() {
 
-  const [todoList, setTodoList] = useState<ToDo[]| null>(null);
+  const [todoList, setTodoList] = useState<ToDo[]>([]);
 
   useEffect(() =>{
     const todos: null|string = localStorage.getItem("todoSubTodo");
     if(todos != null){
       setTodoList(JSON.parse(todos));
+    } else {
+      const temptodoList: ToDo[] = [];
+      localStorage.setItem("todoSubTodo",JSON.stringify(temptodoList))
     }
   },[])
 
@@ -25,17 +28,10 @@ export default function TodoList() {
    * update the new todolist and also localstorage
    */
   function handleDelteTodo(id: string){
-    if(todoList !== null) {
       const newTodoList: ToDo[] =todoList?.filter(t => t.id !== id)
-
-      if(newTodoList.length === 0 ){
-        setTodoList(null)
-        localStorage.removeItem("todoSubTodo");
-      } else {
         setTodoList(newTodoList);
         localStorage.setItem("todoSubTodo",JSON.stringify(newTodoList));
-      }
-    }
+ 
   }
 
   /**
@@ -45,7 +41,6 @@ export default function TodoList() {
    * replace the newtodo in same place of id's todo
    */
   function handleSaveTodo(id: string, todo: ToDo) {
-      if (todoList != null) {
         const newTodoList: ToDo[] = todoList.map((t) => {
           if (t.id === id) {
             return todo;
@@ -53,10 +48,9 @@ export default function TodoList() {
             return t;
           }
       })
-      
       setTodoList(newTodoList);
       localStorage.setItem("todoSubTodo",JSON.stringify(newTodoList));
-    }
+    
   }
 
   /**
@@ -65,7 +59,6 @@ export default function TodoList() {
    * and then update the todolist and localstorage
    */
   function handleChangeTodo(id: string) {
-    if (todoList != null) {
       const newTodoList: ToDo[] = todoList.map((t) => {
         if (t.id === id) {
           if (t.completed === true) {
@@ -83,33 +76,10 @@ export default function TodoList() {
     
     setTodoList(newTodoList);
     localStorage.setItem("todoSubTodo",JSON.stringify(newTodoList));
-  }
-  }
-
-  /**
-   * changes the description of todo
-   * @param id of the todo
-   * @param desc new description to replace
-   */
-  function handleSaveDesc(id: string, desc: string) {
-
-    if (todoList != null) {
-      const newTodoList: ToDo[] = todoList.map((t) => {
-        if (t.id === id) {
-          t.description = desc;
-          return t;
-        } else {
-          return t;
-        }
-    })
-    
-    setTodoList(newTodoList);
-    localStorage.setItem("todoSubTodo",JSON.stringify(newTodoList));
-  }
 
   }
 
-  if(todoList === null) {
+  if(todoList.length === 0) {
     return(
       <div>
         <div className="m-2">
@@ -140,9 +110,6 @@ export default function TodoList() {
                     onClick={() => handleDelteTodo(todos.id)}
                     >Delete</button>
                   </div>
-                  <div className="my-5">
-                    <HandleDescription id={todos.id} description={todos.description} handleSaveDesc={handleSaveDesc}/>
-                  </div>
                 </li>
               ))
             }
@@ -170,7 +137,6 @@ export default function TodoList() {
       const tempTodo: ToDo = {
        id: todo.id,
        name: todoName,
-       description: todo.description,
        completed: todo.completed,
        SubToDo: todo.SubToDo
       }
@@ -208,59 +174,4 @@ export default function TodoList() {
         onClick={() => setIsEditing(true)}>Edit</button>
         </>)
     }
-}
-
-/**
- * 
- * @param param0 id of the todo
- * @param param1 description description of todo
- * @param param2 handlesave function to change description of todo
- * @returns 
- */
-function HandleDescription({id,description, handleSaveDesc} : {id: string, description: string|null, handleSaveDesc: (id:string, desc: string) => void}) {
-
-  
-  const[isEditing, setIsEditing] = useState<boolean>(false);
-  const [desc, setDesc]  = useState<string| null>(description);
-  
-  if(desc === null) {
-    return (
-      <>
-      <>No Description Added</>
-      </>
-    )
-  }
-
-  
-  function handleSave() {
-    if(desc !== null) {
-      handleSaveDesc(id, desc);
-      setIsEditing(false);
-    }
-  }
-
-  if (isEditing) {
-    return (<>
-    <textarea 
-    className="bg-white m-2 rounded-2xl p-2 w-full"
-    rows={3} 
-          value={desc}
-          onChange={(e) => setDesc(e.target.value)}/> 
-
-          <button 
-          className="bg-blue-400 rounded-xl px-4 mx-2"
-          onClick={() => handleSave()}>Save</button>
-    </>)
-  } else {
-    return (
-      <>
-      <div className="bg-yellow-100 py-2 px-4 rounded-2xl">{desc}  </div>
-      <button
-      className="bg-blue-400 rounded-xl px-4  mx-2 mt-2"
-      onClick={()=>setIsEditing(true)}
-      >{(desc==="")? "No Description Click on it Add" : "Edit"}</button>
-      </>
-    )
-  }
-
 }

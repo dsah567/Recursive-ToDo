@@ -16,7 +16,6 @@ return (
         <div>
           <TodoList/>
         </div>
-        <div>Section for sub to do</div>
       </div>
     </div>
   )

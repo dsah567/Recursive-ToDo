@@ -1,9 +1,8 @@
 import { useState } from "react"
 import ToDo from "./types/Todo";
 
-export default function AddToDo({todoList,setToDoList}: {todoList: ToDo[]| null, setToDoList:(x:ToDo[])=> void}) {
+export default function AddToDo({todoList,setToDoList}: {todoList: ToDo[], setToDoList:(x:ToDo[])=> void}) {
     const [name, setName] = useState<string>("write here...");
-    const [description, setDescription] = useState<string>("NA");
     
     
     /**
@@ -15,7 +14,7 @@ export default function AddToDo({todoList,setToDoList}: {todoList: ToDo[]| null,
        * @return last todo+1 in string
       */
      function ids(): string {
-          if (todoList == null) return "1";
+          if (todoList.length == 0) return "1";
           const n: number = todoList.length-1;
           const lastId: number = parseInt(todoList[n].id) + 1;
           return lastId+"";
@@ -27,7 +26,6 @@ export default function AddToDo({todoList,setToDoList}: {todoList: ToDo[]| null,
        const tempToDo: ToDo = {
           id: ids(),
           name: name,
-          description: description,
           completed: false,
           SubToDo: [],
         }
@@ -38,7 +36,7 @@ export default function AddToDo({todoList,setToDoList}: {todoList: ToDo[]| null,
          * else add the newly created todo to the list and also update localstorage
         */
        let newTodoList: ToDo[] ;
-       if(todoList !== null) {
+       if(todoList.length > 0) {
          newTodoList = [...todoList,tempToDo];
         } else {
           newTodoList = [tempToDo];
@@ -53,7 +51,6 @@ export default function AddToDo({todoList,setToDoList}: {todoList: ToDo[]| null,
         alert(`${name} not added todo`)
       } finally{
         setName("write here...");
-        setDescription("NA");
       }
     }
   return (
@@ -66,17 +63,6 @@ export default function AddToDo({todoList,setToDoList}: {todoList: ToDo[]| null,
             onChange={(e) => setName(e.target.value)}
             required
         />
-
-        <label> Enter the description for ToDo or leave it empty: </label>
-        <br />
-        <textarea
-        className="bg-white m-2 rounded-2xl p-2 w-full"
-            rows={3}
-            value={description}
-            onChange={ (e) => setDescription(e.target.value)}
-        ></textarea>
-        <br />
-
 
           <button
           className="bg-cyan-400 hover:bg-cyan-500 text-white font-semibold py-2 px-6 rounded-full"
