@@ -130,6 +130,7 @@ export default function TodoList() {
     const [todoName, setTodoName] = useState<string>(todo.name);
     const [showFutherDetail, setShowFutherDetail] = useState<boolean>(false);
     const [addSubToDo, setAddSubToDo]  = useState<boolean>(false);
+    const [showSubToDo, setShowSubToDo] = useState<boolean>(false);
 
     function handleSave() {
       const tempTodo: ToDo = {
@@ -183,22 +184,24 @@ export default function TodoList() {
         className="bg-blue-400 rounded-xl px-4 mx-1 mt-3"
         onClick={() =>{ 
           setShowFutherDetail(true)
-          setAddSubToDo(true)}}
+          setAddSubToDo(true)
+          setShowSubToDo(false)}}
         >Add SubToDo</button>
 
         <button
         className="bg-blue-400 rounded-xl px-4 mx-1 mt-3"
         onClick={() =>{ 
-          setShowFutherDetail(true)
-          setAddSubToDo(false)}}
-        >Show SubToDo</button>
+          setShowFutherDetail(!showSubToDo)
+          setAddSubToDo(false)
+          setShowSubToDo(prev => !prev)}}
+        >{showSubToDo? "Hide SubToDo" : "ShowSubToDo"}</button>
         </div>
         <div>
           {(showFutherDetail== false) ? " " : (
             <div 
             className="mt-3"
             >
-              <FurtherDetail addSubToDo={addSubToDo} />
+              <FurtherDetail addSubToDo={addSubToDo}  todo={todo}/>
             </div>
           )
           }

@@ -59,7 +59,7 @@ export default function AddToDo() {
       catch (error) {
         alert(`${name} not added todo`)
       } finally{
-        setName("write here...");
+        setName("");
       }
     }
   return (
