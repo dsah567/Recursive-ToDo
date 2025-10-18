@@ -1,14 +1,23 @@
 import { useState } from "react"
 import ToDo from "./types/Todo";
+import { useContext } from "react";
+import { ToDoList as ContestToDoList, setToDoList as SetContestToDoList} from "./ToDoListContext";
 
-export default function AddToDo({todoList,setToDoList}: {todoList: ToDo[], setToDoList:(x:ToDo[])=> void}) {
-    const [name, setName] = useState<string>("write here...");
+export default function AddToDo() {
+    const [name, setName] = useState<string>("");
+    const todoList = useContext(ContestToDoList);
+    const setToDoList = useContext(SetContestToDoList);
     
     
     /**
      * add newtodo in todolist  
      */
     function handleAddTodo() {
+
+      if (name == ""){
+        alert("Please Enter the todo name");
+        return;
+      }
 
       /**
        * @return last todo+1 in string
@@ -44,7 +53,7 @@ export default function AddToDo({todoList,setToDoList}: {todoList: ToDo[], setTo
         setToDoList(newTodoList);
       try {
         localStorage.setItem("todoSubTodo",JSON.stringify(newTodoList));
-        alert(`${name} added todo`)
+        alert(`${name} -- todo added`)
   
       } 
       catch (error) {
@@ -61,6 +70,7 @@ export default function AddToDo({todoList,setToDoList}: {todoList: ToDo[], setTo
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            placeholder="Enter name of todo"
             required
         />
 

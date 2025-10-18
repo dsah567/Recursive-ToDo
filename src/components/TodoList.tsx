@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import ToDo from "./types/Todo";
 import AddToDo from "./AddToDo";
+import FurtherDetail from "./FurtherDetail";
+import { ToDoList as ContestToDoList, setToDoList as SetContestToDoList} from "./ToDoListContext";
 
 /**
  * checks the localstorage for todosubtodo if it is empty
@@ -79,42 +81,39 @@ export default function TodoList() {
 
   }
 
-  if(todoList.length === 0) {
-    return(
+  return(
+    <ContestToDoList.Provider value={todoList}>
+      <SetContestToDoList.Provider value={setTodoList}>
       <div>
         <div className="m-2">
-          <AddToDo todoList={todoList} setToDoList={setTodoList}/>
-        </div>
-        <div className="bg-[#b0b0ebee] p-2 rounded-2xl" >No ToDo Added</div>
-      </div>
-    ) 
-  }
-  else {
-    return(
-      <div>
-        <div className="m-2">
-         <AddToDo todoList={todoList} setToDoList={setTodoList}/>
+          <AddToDo/>
         </div>
 
-        <div className="bg-[#b0b0ebee] p-2 rounded-2xl" >
-          <ul>
-            {
-              todoList.map((todos: ToDo) => (
-                <li key={todos.id}
-                className="p-2 m-1 bg-gray-400 rounded-2xl"
-                >
-                  <div className="my-5">
-                    <Todo todo={todos} handleSaveTodo={handleSaveTodo} handleChangeTodo={handleChangeTodo} handleDelteTodo={handleDelteTodo}/>
-                  </div>
-                </li>
-              ))
-            }
-          </ul>
-         
+        <div>
+          {todoList.length == 0? ( <div className="bg-[#b0b0ebee] p-2 rounded-2xl" >No ToDo Added</div> ): (
+            <div className="bg-[#b0b0ebee] p-2 rounded-2xl" >
+            <ul>
+              {
+                todoList.map((todos: ToDo) => (
+                  <li key={todos.id}
+                  className="p-2 m-1 bg-gray-400 rounded-2xl"
+                  >
+                    <div className="my-5">
+                      <Todo todo={todos} handleSaveTodo={handleSaveTodo} handleChangeTodo={handleChangeTodo} handleDelteTodo={handleDelteTodo}/>
+                    </div>
+                  </li>
+                ))
+              }
+            </ul>
+           
+          </div>
+          )}
         </div>
+        
       </div>
-    )
-  }
+      </SetContestToDoList.Provider>
+    </ContestToDoList.Provider>
+  ) 
 }
 
 
@@ -129,6 +128,8 @@ export default function TodoList() {
       {todo: ToDo,handleSaveTodo: (id: string, todo: ToDo) => void, handleChangeTodo: (id: string) => void, handleDelteTodo :(id: string) => void}) {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [todoName, setTodoName] = useState<string>(todo.name);
+    const [showFutherDetail, setShowFutherDetail] = useState<boolean>(false);
+    const [addSubToDo, setAddSubToDo]  = useState<boolean>(false);
 
     function handleSave() {
       const tempTodo: ToDo = {
@@ -155,7 +156,10 @@ export default function TodoList() {
       </>)
 
     } else {
-        return (<>
+        return (
+        <>
+
+        <div>
         <input 
         className="rounded-2xl"
         type="checkbox"
@@ -171,17 +175,34 @@ export default function TodoList() {
         onClick={() => setIsEditing(true)}>Edit</button>
 
         <button
-          className="bg-red-500 rounded-xl px-2 mx-1 mt-3"
+          className="bg-red-500 rounded-xl px-4 mx-1 mt-3"
           onClick={() => handleDelteTodo(todo.id)}
           >Delete</button>
 
         <button
         className="bg-blue-400 rounded-xl px-4 mx-1 mt-3"
+        onClick={() =>{ 
+          setShowFutherDetail(true)
+          setAddSubToDo(true)}}
         >Add SubToDo</button>
 
         <button
         className="bg-blue-400 rounded-xl px-4 mx-1 mt-3"
-        >SShow SubToDo</button>
+        onClick={() =>{ 
+          setShowFutherDetail(true)
+          setAddSubToDo(false)}}
+        >Show SubToDo</button>
+        </div>
+        <div>
+          {(showFutherDetail== false) ? " " : (
+            <div 
+            className="mt-3"
+            >
+              <FurtherDetail addSubToDo={addSubToDo} />
+            </div>
+          )
+          }
+        </div>
         </>)
     }
 }
