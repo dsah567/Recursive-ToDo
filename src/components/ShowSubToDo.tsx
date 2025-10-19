@@ -31,7 +31,6 @@ export default function ShowSubToDo({todo}:
      * replace the newtodo in same place of id's todo
      */
     async function handleSaveTodo(id: string, subtodo: ToDo) {
-        console.log(subtodo);
         
         const newTodoList: ToDo[] = todoList.map((t) => {
             if (t.id === id) {
