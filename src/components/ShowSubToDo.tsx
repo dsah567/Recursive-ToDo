@@ -19,6 +19,7 @@ export default function ShowSubToDo({todo}:
      */
     function handleDelteTodo(id: string){
         const newTodoList: ToDo[] =todoList?.filter(t => t.id !== id)
+        todo.SubToDo = newTodoList;
         setTodoList(newTodoList);
         localStorage.setItem("todoSubTodo",JSON.stringify(mainToDoList));
     }
@@ -29,16 +30,21 @@ export default function ShowSubToDo({todo}:
      * @param todo new todo 
      * replace the newtodo in same place of id's todo
      */
-    function handleSaveTodo(id: string, todo: ToDo) {
+    async function handleSaveTodo(id: string, subtodo: ToDo) {
+        console.log(subtodo);
+        
         const newTodoList: ToDo[] = todoList.map((t) => {
-        if (t.id === id) {
-            return todo;
-        } else {
-            return t;
-        }
-    })
+            if (t.id === id) {
+                return subtodo;
+            } else {
+                return t;
+            }
+        })
+        
+        todo.SubToDo = newTodoList;
         setTodoList(newTodoList);
-        localStorage.setItem("todoSubTodo",JSON.stringify(mainToDoList));
+        
+        await localStorage.setItem("todoSubTodo",JSON.stringify(mainToDoList));
     }
 
     /**
