@@ -15,10 +15,22 @@ export default function ShowSubToDo({todo}:
       /**
      * 
      * @param id which todo we have to remove
+     * it will ask before deleting the todo
      * update the new todolist and also localstorage
      */
     function handleDelteTodo(id: string){
-        const newTodoList: ToDo[] =todoList?.filter(t => t.id !== id)
+        const newTodoList: ToDo[] =todoList?.filter(t =>{
+            if(t.id !== id) return true;
+            if(t.completed == true) {
+                let userResponse: boolean = confirm("Task is completed.Are you sure you want to delet");
+                if(userResponse) return false;
+                return true;
+            }else {
+                let userResponse: boolean = confirm("Task is Not yet completed.Are you sure you want to delet, You will not be able to retrive it back");
+                if(userResponse) return false;
+                return true;
+            }
+        })
         todo.SubToDo = newTodoList;
         setTodoList(newTodoList);
         localStorage.setItem("todoSubTodo",JSON.stringify(mainToDoList));
