@@ -124,7 +124,7 @@ export default function TodoList() {
    * @param param2 handleChangeTodo for changing the completedoption of todo
    * @returns todo with edit/save and checkbox 
    */
-  function Todo({todo,handleSaveTodo, handleChangeTodo, handleDelteTodo}: 
+  export function Todo({todo,handleSaveTodo, handleChangeTodo, handleDelteTodo}: 
       {todo: ToDo,handleSaveTodo: (id: string, todo: ToDo) => void, handleChangeTodo: (id: string) => void, handleDelteTodo :(id: string) => void}) {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [todoName, setTodoName] = useState<string>(todo.name);
