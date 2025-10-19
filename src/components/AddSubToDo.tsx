@@ -48,7 +48,7 @@ function handleAddSubTodo() {
 
     } 
     catch (error) {
-        alert(`${name} not sub-todo added`)
+        alert(`${name} --   sub-todo notadded`)
     } finally{
         setName("");
     }

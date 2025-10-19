@@ -57,7 +57,7 @@ export default function AddToDo() {
   
       } 
       catch (error) {
-        alert(`${name} not added todo`)
+        alert(`${name} -- todo not added`)
       } finally{
         setName("");
       }

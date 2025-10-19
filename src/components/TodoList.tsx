@@ -74,14 +74,8 @@ export default function TodoList() {
   function handleChangeTodo(id: string) {
       const newTodoList: ToDo[] = todoList.map((t) => {
         if (t.id === id) {
-          if (t.completed === true) {
-            t.completed = false;
-            return t;
-          } else {
-              //later write code check if all of its subtodo is completed
-              t.completed = true; 
-            return t;
-          }
+          t.completed = !t.completed;
+          return t;
         } else {
           return t;
         }
